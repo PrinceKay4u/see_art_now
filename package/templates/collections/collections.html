@@ -1,0 +1,102 @@
+{% include "header.html"%}
+        <!-- Navbar end -->
+        <div class="row">
+          <div class="col">
+              <div id="custom-alert" style="display:none; position:fixed; top:10%; left:50%; transform:translate(-50%, -50%); background:#4caf50; color:white; padding:10px 20px; border-radius:5px; z-index:9999;">
+                  Added to cart
+              </div>                
+          </div>
+       </div>
+
+        <!-- collection Area -->
+        <div class="row">
+          <div class="col"> 
+            {% set msg = get_flashed_messages(with_categories=True)%}
+            {% if msg %}
+              {% for cat,message in msg %}
+                {% if cat == 'failed'%}
+                  <p class="alert alert-danger">{{message}}</p>
+                {%endif%}
+                {% if cat == 'success'%}
+                  <p class="alert alert-success">{{message}}</p>
+                {%endif%}
+              {%endfor%}
+            {% endif%}           
+              <header class="mb-4 text-center mt-5">
+                <h3 class="fw-bold">All Collections</h3>
+                <h1> {{user}} </h1>
+              </header>
+              <div class="row">
+                <div class="col text-center banner_text py-3">
+                  <span><a href="{{url_for('collections')}}" class="px-3 collection_link fw-bold rounded border border-3 border-tertiary">All Collections</a></span>
+                  <span><a href="{{url_for('sketches')}}" class="px-3 collection_link">Sketch and Drawings</a></span>
+                  <span><a href="{{url_for('paintings')}}" class="px-3 collection_link">paintings</a></span>
+                  <span><a href="{{url_for('embroideries')}}" class="px-3 collection_link">Embroideries</a></span>
+                  <span><a href="{{url_for('sculptures')}}" class="px-3 collection_link">Sculptures</a></span>
+                  <span><a href="{{url_for('interiors')}}" class="px-3 collection_link">Interior designs</a></span>
+                </div>
+              </div>          
+              <div class="row">
+                {% for a in artworks%}
+                <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
+                  <div class="card w-100  my-2 shadow-2-strong">
+                    <a href="/product/details/{{a.art_id}}/">
+                    <img src="/static/uploads/{{a.art_image}}" class="card-img-top p-2" style="height: 18rem;" />
+                    </a>
+                    <div class="card-body d-flex flex-column product-item" data-artwork="{{a.art_id}}">
+                      <h5 class="card-title">&#8358; {{a.art_price}}</h5>
+                      <p> {{a.art_description}} </p>
+                      <p class="card-text fw-bold">{% for c in categories%} {%if a.art_category_id == c.cat_id %} {{c.cat_name}} {%endif%} {%endfor%}</p>
+                      <div class="card-footer d-flex align-items-end pt-1 px-2 pb-1 mt-auto">
+                        <!-- <button class="btn btn-success shadow-0 mx-2 me-5 add-to-cart" type="button">Add to cart</button> -->
+                        <a href="/product/details/{{a.art_id}}/" class="btn btn-success rounded-0 add-to-cart" type="button">View Product</a>
+                        <!-- <a href="#!" class="btn btn-light border icon-hover ms-5"><img src="/static/images/bookmark.png" alt="bookmark" width="70%"></a> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {%endfor%}
+              </div>            
+          </div>
+        </div>
+        <!-- collection area end-->
+
+        <!-- Footer -->
+        {% include "footer.html"%}
+        <!-- footer completion start -->
+<script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="/static/js/jquery-3.7.1.min.js"></script>
+<!-- <script>
+    $(document).ready(function(){
+      //  $('.add-to-cart').click(function(){
+       
+      //   var productitem = $(this).closest('.product-item');
+      //   var artId = productitem.data('artwork');
+      //   var data2send = artId;
+      //   alert(data2send)
+  
+      //   $.ajax({
+      //       url:"/add-to-cart/"+data2send+"/",
+      //       type:'POST',
+      //       data:data2send,
+      //       success:function(resp){
+
+      //         $('#custom-alert').html(resp);
+      //         $('#cart-items').html("{{session.get('cart')|length}}")
+      //         $('#custom-alert').fadeIn();
+
+      //         setTimeout(function(){
+      //         $('#custom-alert').fadeOut();
+      //         }, 2000);
+      //       },
+      //       error:function(err){
+      //           console.log(err)
+      //       }
+      //   })
+      //  })
+    })
+</script> -->
+</body>
+</html>
+
+<!-- footer completion end -->

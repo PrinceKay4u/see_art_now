@@ -1,0 +1,53 @@
+{% include "header.html"%}
+        <!-- Login form start -->
+        <div class="row my-5 mx-3" id="loginform">
+            <div class="col-sm-6 offset-sm-3">
+              {% set msg = get_flashed_messages(with_categories=True)%}
+              {% if msg %}
+                {% for cat,message in msg %}
+                  {% if cat == 'failed'%}
+                    <p class="alert alert-danger">{{message}}</p>
+                  {%endif%}
+                  {% if cat == 'success'%}
+                    <p class="alert alert-success">{{message}}</p>
+                  {%endif%}
+                {%endfor%}
+              {% endif%}
+              </div>
+              </div>
+              <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <form action="" method="post" class="form-control" novalidate enctype="multipart/form-data">
+                        {{ep.csrf_token()}}
+                        <h2>Edit post</h2>
+                        <div class="mb-3">
+                            {{ep.description.label(class=" mb-2")}}
+                            {{ep.description(class="form-control")}}
+                            {% for errors in ep.description.errors %}
+                            <span class="text-danger">{{error}}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="mb-3">
+                            {{ep.price.label(class="mb-2")}}
+                            {{ep.price(class="form-control")}}
+                            {% for errors in ep.price.errors %}
+                            <span class="text-danger">{{error}}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="mb-3">
+                            {{ep.post(class="btn btn-dark col-12",id="ajaxupdate")}}
+                        </div>
+                    </form>
+                </div>
+              </div>
+            
+          <!-- footer start -->
+          {% include "footer.html"%}
+          <!-- footer completion start -->
+<script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="/static/js/jquery-3.7.1.min.js"></script>
+
+</body>
+</html>
+
+<!-- footer completion end -->

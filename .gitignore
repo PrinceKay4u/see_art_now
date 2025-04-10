@@ -1,0 +1,9 @@
+seeart/
+package/static/bootstrap/
+package/static/images/
+package/static/js/
+package/static/uploads/
+package/static/admin/
+instance/config.py
+migrations/
+__pycache__/

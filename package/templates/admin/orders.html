@@ -1,0 +1,117 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}
+All Orders
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<div class="row mt-5">
+    <div class="col">
+        <h1 class="text-center">All Orders</h1>
+        <table class="table table-dark table-striped-columns table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>username</th>
+                    <th>ordertime</th>
+                    <th>Status</th>
+                    <th>Total price</th>
+                    <th>Ref Num</th>
+                    <th>Delivery address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td> {{loop.index}} </td>
+                    <td> {{order.user.username}} </td>
+                    <td> {{order.order_time}} </td>
+                    <td> {{order.order_status}} </td>
+                    <td> {{order.order_total_price}} </td>
+                    <td> {{order.order_reference}} </td>
+                    <td> {{order.order_address}} </td>
+                </tr>
+                {%endfor%}
+                <tr>
+                    <td>Total</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col">
+        <h1 class="text-center">All Order Details</h1>
+        <table class="table table-dark table-striped-columns table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>Order id</th>
+                    <th>Art Id</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detail in orderdetails %}
+                <tr>
+                    <td> {{loop.index}} </td>
+                    <td> {{detail.order_detail_order_id}} </td>
+                    <td> {{detail.order_art_id}} </td>
+                    <td> {{detail.order_art_price}} </td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col">
+        <h1 class="text-center">All Payments</h1>
+        <table class="table table-dark table-striped-columns table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>Payment Order id</th>
+                    <th>Payment method</th>
+                    <th>Transaction Id</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for payment in payments %}
+                <tr>
+                    <td> {{loop.index}} </td>
+                    <td> {{payment.payment_order_id}} </td>
+                    <td> {{payment.payment_method}} </td>
+                    <td> {{payment.transaction_id}} </td>
+                    <td> {{payment.payment_amount}} </td>
+                    <td> {{payment.payment_status}} </td>
+                    <td> {{payment.payment_date}} </td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+{% block scripts %}
+<script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="/static/js/jquery-3.7.1.min.js"></script>     
+{% endblock %}

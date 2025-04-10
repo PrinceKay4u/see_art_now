@@ -1,0 +1,135 @@
+{% include "header.html"%}
+        <!-- Navbar end -->
+
+        <!-- collection Area -->
+         <div class="row">
+            <div class="col">
+                <div id="custom-alert" style="display:none; position:fixed; top:10%; left:50%; transform:translate(-50%, -50%); background:#4caf50; color:white; padding:10px 20px; border-radius:5px; z-index:9999;">
+                    Added to cart
+                </div>                  
+            </div>
+         </div>
+         <div class="row px-3 px-md-5 mt-5">
+            <div class="col-md-6 text-center">
+                <img src="/static/uploads/{{artworks.art_image}}" alt="" class="img-fluid shadow-lg p-1" style="height: 25rem;">
+            </div>
+            <div class="col-md-6">
+                <div>                 
+                    <h2 class="text-center">Item in {{categories.cat_name}}</h2>
+                    <h4 class="mt-0">&#8358; {{artworks.art_price}}</h4>
+                    <p><span class="fw-medium fs-6">Seller name: </span>{{user.user_lastname}} {{user.user_firstname}}</p>
+                    <p><span class="fw-medium fs-6">Seller location: </span>{{user.user_state|capitalize}}</p>
+                    <p><span class="fw-medium fs-6">Uploaded: </span>{{artworks.art_posted_at}}</p>
+                    {%if session.get('isloggedin') %}
+                    {%if loggedin.user_id != user.user_id%}
+                    <div class="mb-3">
+                        <button class="btn btn-success" id="add-to-cart">Add to cart</button>
+                        <button class="btn btn-danger" id="remove-from-cart">Remove</button>
+                    </div>
+                    {%else%}
+                    <div class="mb-3">
+                        <a href="/edit/post/{{artworks.art_id}}" class="btn btn-success shadow-0 mx-1">Edit</a>
+                    </div>
+                    {%endif%}
+                    {%else%}
+                    <p class="fw-bold">Login to place order or add to cart</p>
+                    {%endif%}
+                </div>
+                <!-- product detail card -->
+                <div class="accordion accordion-flush" id="productdetailscard">
+                    <!-- product description -->
+                    <div class="accordion-item">
+                      <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                          Description
+                        </button>
+                      </h2>
+                      <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#productdetailscard">
+                        <div class="accordion-body">{{artworks.art_description}}</div>
+                      </div>
+                    </div>
+                    <div class="accordion-item">
+                      <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                          Seller email
+                        </button>
+                      </h2>
+                      <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#productdetailscard">
+                        <div class="accordion-body">{{user.user_email}}</div>
+                      </div>
+                    </div>                    
+                  </div>
+                 <!-- product detail card end  -->
+            </div>
+         </div>
+        
+        <!-- collection area end-->
+
+        <!-- Footer -->
+        {% include "footer.html"%}
+<!-- footer completion start -->
+<script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="/static/js/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+        // add to cart section
+       $('#add-to-cart').click(function(){
+        var data2send = {csrf_token:'{{csrf_token()}}'}
+        
+        
+            $.ajax({
+                url:"/add-to-cart/{{artworks.art_id}}",
+                type:'POST',
+                data:data2send,
+                success:function(resp){
+
+                    $('#custom-alert').html(resp);
+                    $('#cart-items').html("{{session.get('cart')|length}}")
+                    $('#custom-alert').fadeIn();
+
+                    setTimeout(function(){
+                    $('#custom-alert').fadeOut();
+                    }, 2000);
+
+  
+                },
+                error:function(err){
+                    console.log(err)
+                }
+            })
+       })
+
+    //    remove from cart section
+       $('#remove-from-cart').click(function(){
+        var data2send = {csrf_token:'{{csrf_token()}}'}
+        
+        
+            $.ajax({
+                url:"/remove-from-cart/{{artworks.art_id}}",
+                type:'POST',
+                data:data2send,
+                success:function(resp){
+
+                    $('#custom-alert').html(resp);
+                    $('#cart-items').html("{{session.get('cart')|length}}")
+                    $('#custom-alert').fadeIn();
+
+                    setTimeout(function(){
+                    $('#custom-alert').fadeOut();
+                    }, 1000);
+
+  
+                },
+                error:function(err){
+                    console.log(err)
+                }
+            })
+       })
+    })
+
+</script>
+</body>
+</html>
+
+<!-- footer completion end -->

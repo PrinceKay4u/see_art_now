@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Admin{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/admin_style.css" type="text/css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-dark bg-dark px-3 d-flex justify-content-between fixed-top">
+    <button class="btn btn-outline-light d-md-none" id="openSidebar">☰</button>
+    <a class="navbar-brand" href="#">See-art Admin</a>
+    {% set online = session.get('adminloggedin')%}
+    {% if online %}
+    <span class="navbar-text">Welcome, {{adminavailable.admin_user}}</span>
+    {%endif%}
+  </nav>
+
+  <!-- Mobile Sidebar -->
+  <div id="sidebarOverlay" class="sidebar">
+    <a href="/see-art/admin/">Dashboard</a>
+    <a href="/see-art/admin/users/">Users</a>
+    <a href="/see-art/admin/sellers/">Sellers</a>
+    <a href="/see-art/admin/products/">Artworks</a>
+    <a href="/see-art/admin/categories/">Categories</a>
+    <a href="/see-art/admin/orders/">Orders</a>
+    <a href="{{url_for('admin_logout')}}">Logout</a>
+  </div>
+  <div id="backdrop"></div>
+
+  <!-- Fixed Sidebar for Desktop -->
+  <div class="fixed-sidebar sidebar d-none d-md-block">
+    <a href="/see-art/admin/">Dashboard</a>
+    <a href="/see-art/admin/users/">Users</a>
+    <a href="/see-art/admin/sellers/">Sellers</a>
+    <a href="/see-art/admin/products/">Artworks</a>
+    <a href="/see-art/admin/categories/">Categories</a>
+    <a href="/see-art/admin/orders/">Orders</a>
+    <a href="{{url_for('admin_logout')}}">Logout</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container-fluid">
+    <div class="main-content p-4">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/static/js/jquery-3.7.1.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      $('#openSidebar').click(function(){
+        $('#sidebarOverlay').addClass('active');
+        $('#backdrop').fadeIn();
+      });
+
+      $('#backdrop').click(function(){
+        $('#sidebarOverlay').removeClass('active');
+        $(this).fadeOut();
+      });
+    });
+  </script>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

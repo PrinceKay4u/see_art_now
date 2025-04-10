@@ -1,0 +1,252 @@
+{% include "header.html"%}
+          <!-- Navbar end -->
+
+          <!-- settings start -->
+        <div class="row px-md-4 mx-4 mt-5">
+            <div class="col-12 mb-3">
+                <div class="row">
+                    <div class="col-md-3 text-center">
+                        <a href="{{url_for('profile')}}" class="btn btn-outline-success"><img src="/static/images/back.png" alt=""> Go back</a>
+                    </div>
+                    <div class="col-md-8">
+                        <h1 class="h3 mb-3 text-center fw-bold">Settings</h1>
+                        <p>
+                            {% set msg = get_flashed_messages(with_categories=True)%}
+                            {% if msg %}
+                                {% for cat,message in msg %}
+                                {% if cat == 'failed'%}
+                                    <p class="alert alert-danger">{{message}}</p>
+                                {%endif%}
+                                {% if cat == 'success'%}
+                                    <p class="alert alert-success text-center">{{message}}</p>
+                                {%endif%}
+                                {%endfor%}
+                            {% endif%}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-xl-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Profile Settings</h5>
+                    </div>
+                    <div class="list-group list-group-flush" role="tablist">
+                        <a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#account" role="tab">Account</a>
+                        <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#password" role="tab">Password</a>
+                        <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#">Email notifications</a>
+                        <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#">Web notifications</a>
+                        <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#">Your data</a>
+                        <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#deleteAccount">Delete account</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 col-xl-8">
+                <div class="tab-content">
+                    <!-- account settings area -->
+                    <div class="tab-pane fade show active" id="account" role="tabpanel">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between">
+                                <h5 class="card-title mb-0">Public info</h5>
+                                
+                            </div>
+
+                            <!-- Account public form -->
+                            <div class="card-body">
+                                
+                                <form method="post" action="/see-art/edit/{{loggedin.user_id}}/public/" enctype="multipart/form-data" novalidate>
+                                    {{pd.csrf_token()}}
+                                    <div class="mb-3">
+                                        {{pd.username.label(class="form-label")}}
+                                        {{pd.username(class="form-control",placeholder="Username",id="username",value=loggedin.username)}}
+
+                                        {%for error in pd.username.errors%}
+                                            <span class="text-danger">{{error}}</span>
+                                        {%endfor%}
+                                    </div>
+                                    <div class="mb-3">
+                                        {{pd.bio.label(class="form-label")}}
+                                        {{pd.bio(class="form-control",placeholder="Say something about yourself",id="bio",value="{{pd.bio.data}}")}}
+
+                                        {%for error in pd.bio.errors%}
+                                            <span class="text-danger">{{error}}</span>
+                                        {%endfor%}
+                                    </div>
+                                    <div class="mb-3 text-center">
+                                        {% if loggedin.user_picture %}
+                                        <img id="profileImage" alt="Profile Picture" src="/static/uploads/{{loggedin.user_picture}}" class="rounded-circle img-responsive" width="128" height="128">
+                                        {%else%}
+                                        <img id="profileImage" alt="Profile Picture" src="/static/images/profile_pic.png" class="rounded-circle img-responsive" width="128" height="128">
+                                        {%endif%}
+                                        
+                                        <div class="mt-2">
+                                            {{pd.upload(id="uploadProfilePic",class="btn btn-dark",accept="image/*",onchange="previewImage(event)")}}
+                                        </div>
+                                        {%for error in pd.upload.errors%}
+                                            <span class="text-danger">{{error}}</span>
+                                        {%endfor%}
+                                        <p>For best results, use an image at least 128px by 128px in .jpg format</p>
+                                    </div>
+                                    {{pd.save(class="btn btn-primary")}}
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Account private form -->
+                        <div class="card mt-3">
+                            <div class="card-header d-flex justify-content-between">
+                                <h5 class="card-title mb-0">Private info</h5>
+                            </div>
+                            <div class="card-body">
+                                <form action="/see-art/edit/{{loggedin.user_id}}/private/" method="post" novalidate>
+                                    {{prd.csrf_token()}}
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            {{prd.firstname.label(class="form-label")}}
+                                            {{prd.firstname(class="form-control",placeholder="FirstName",id="firstname",value=loggedin.user_firstname)}}
+
+                                            {%for error in prd.firstname.errors%}
+                                                <span class="text-danger">{{error}}</span>
+                                            {%endfor%}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {{prd.lastname.label(class="form-label")}}
+                                            {{prd.lastname(class="form-control",placeholder="LastName",id="lastname",value=loggedin.user_lastname)}}
+
+                                            {%for error in prd.lastname.errors%}
+                                                <span class="text-danger">{{error}}</span>
+                                            {%endfor%}
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        {{prd.email.label(class="form-label")}}
+                                        {{prd.email(class="form-control",placeholder="Email",id="email",value=loggedin.user_email,disabled="true")}}
+
+                                        {%for error in prd.email.errors%}
+                                            <span class="text-danger">{{error}}</span>
+                                        {%endfor%}
+                                    </div>
+                                    {{prd.save(class="btn btn-primary")}}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- password area -->
+                    <div class="tab-pane fade" id="password" role="tabpanel">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Password</h5>
+                                <form action="/see-art/edit/{{loggedin.user_id}}/password/" method="post" novalidate>
+                                    {{pc.csrf_token()}}
+                                    <div class="mb-3">                                       
+                                        {{pc.password.label(class="form-label")}}
+                                        {{pc.password(class="form-control")}}
+                                         <a href="#" class="btn btn-link p-0">Forgot your password?</a>
+
+                                         {%for error in pc.password.errors%}
+                                            <span class="text-danger">{{error}}</span>
+                                         {%endfor%}
+                                    </div>
+                                    <div class="mb-3">
+                                        {{pc.newpassword.label(class="form-label")}}
+                                        {{pc.newpassword(class="form-control")}}
+
+                                        {%for error in pc.newpassword.errors%}
+                                            <span class="text-danger">{{error}}</span>
+                                        {%endfor%}
+                                    </div>
+                                    <div class="mb-3">
+                                        {{pc.confirm_password.label(class="form-label")}}
+                                        {{pc.confirm_password(class="form-control")}}
+
+                                        {%for error in pc.confirm_password.errors%}
+                                            <span class="text-danger">{{error}}</span>
+                                        {%endfor%}
+                                    </div>
+                                    <div>
+                                        {{pc.save(class="btn btn-primary")}}
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- deleta account area -->
+                    <div class="tab-pane fade" id="deleteAccount" role="tabpanel">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold text-danger">Danger Zone</h5>
+                                <form>
+                                    <div class="mb-3">
+                                        <p>This action cannot be undone. This will permanently delete your account and remove all your data.</p>
+                                        <p class="mb-0">Enter your password to confirm</p>
+                                        <input type="password" class="form-control mt-0" id="delete_acct_password">
+                                        <label for="delete_acct" class="form-label text-danger mb-0 mt-3">Are you sure you want to delete your account?</label>
+                                        <input type="checkbox" class="form-check mt-0" id="delete_acct">
+                                        <a href="#" class="btn btn-danger">Delete</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- delete area end -->
+                </div>
+            </div>
+        </div>
+        <!-- settings end -->
+
+        <!-- Footer -->
+        <div class="row footer pt-5 mt-5">
+            <div class="col-12 col-lg-3 col-sm-12 mb-2 text-center">
+              <img src="/static/images/logo.png" class="img-fluid" alt="logo">
+              <h1>See Art Now</h1>  
+            </div>
+            <div class="col-6 col-sm-4 col-lg-2">
+              <h4>Find Art</h4>
+              <p><a href="#" class="footerlinks">Sellers</a></p>
+              <p><a href="{{url_for('collections')}}" class="footerlinks">Collections</a></p>
+              <p><a href="#" class="footerlinks d-none d-sm-block">User Favorites</a></p>
+              <p><a href="#" class="footerlinks d-none d-sm-block">Payment Info</a></p>
+            </div>
+            <div class="col-6 col-sm-4 col-lg-2">
+              <h4>See Products</h4>
+              <p><a href="{{url_for('collections')}}" class="footerlinks">Sketches</a></p>
+              <p><a href="{{url_for('collections')}}" class="footerlinks">Embroideries</a></p>
+              <p><a href="{{url_for('collections')}}" class="footerlinks">interior Designs</a></p>
+              <p><a href="{{url_for('collections')}}" class="footerlinks">sculptures</a></p>
+              <p><a href="{{url_for('collections')}}" class="footerlinks">paintings</a></p>
+            </div>
+            <div class="col-6 col-sm-4 col-lg-2">
+              <h4>User Links</h4>
+              <p><a href="{{url_for('login')}}" class="footerlinks">Login</a></p>
+              <p><a href="{{url_for('register')}}" class="footerlinks">Register</a></p>
+              <p><a href="#" class="footerlinks d-none d-sm-block">FAQs</a></p>
+              <p><a href="{{url_for('about')}}" class="footerlinks">About us</a></p>
+            </div>
+            <div class="col-6 col-sm-4 col-lg-2">
+              <h4>Others</h4>
+              <p><a href="{{url_for('contact')}}" class="footerlinks">Contact Us</a></p>
+              <p><a href="#" class="footerlinks">Terms of Use</a></p>
+              <p><a href="#" class="footerlinks">Privacy Policy</a></p>
+              <p><a href="#" class="footerlinks d-none d-sm-block">Accessibility</a></p>
+            </div>
+            <div class="col-12 text-center mt-5">
+              <p>This website was launched in Beta in 2025, If you would like a change, feel free to contact us. Please note that we would love to hear your ideas and work on them</p>
+              <p>&copy; 2025 See Art Now. All rights reserved</p>
+            </div>
+          </div>
+    </div>
+
+    <!-- javascript -->
+<script src="/static/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script>
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function () {
+            const output = document.getElementById('profileImage');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>                                                                       
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Login</title>
+  <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+ 
+</head>
+<body class="container bg-dark" id="adminlogin">
+  <div class="row">
+    <div class="col-md-6 offset-md-3 pt-5">
+      <h4 class="text-center mb-5 text-light mt-5">See-Art Admin Login</h4>
+      {% set msg = get_flashed_messages(with_categories=True)%}
+      {% if msg %}
+        {% for cat,message in msg %}
+          {% if cat == 'failed'%}
+            <p class="alert alert-danger">{{message}}</p>
+          {%endif%}
+          {% if cat == 'success'%}
+            <p class="alert alert-success">{{message}}</p>
+          {%endif%}
+        {%endfor%}
+      {% endif%}
+      <form method="post" action="" novalidate class="form-control">
+        {{adminform.csrf_token}}
+        <h2 class="text-center">Login</h2>
+        <div class="mb-3">
+          {{adminform.username.label(class="pt-3 pb-1 ps-3")}} <br>
+          {{adminform.username(class="form-control",placeholder="Username")}}
+
+          {%for error in adminform.username.errors%}
+            <span class="text-danger">{{error}}</span>
+          {%endfor%}
+        </div>
+        <div class="mb-3">
+          {{adminform.password.label(class="pt-3 pb-1 ps-3")}} <br>
+          {{adminform.password(class="form-control",placeholder="Password")}}
+
+          {%for error in adminform.password.errors%}
+            <span class="text-danger">{{error}}</span>
+          {%endfor%}
+        </div>
+        <div class="py-3">
+          {{adminform.send(class="btn btn-success col-12")}}
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,147 @@
+{% include "header.html"%}
+        <!-- register form start -->
+          <div class="row my-5 mx-md-3 px-2" id="registerform">
+            <div class="col-sm-6">
+                {% set msg = get_flashed_messages(with_categories=True)%}
+                {% if msg %}
+                    {% for cat,message in msg %}
+                    {% if cat == 'failed'%}
+                        <p class="alert alert-danger text-center">{{message}}</p>
+                    {%endif%}
+                    {% if cat == 'success'%}
+                        <p class="alert alert-success text-center">{{message}}</p>
+                    {%endif%}
+                    {%endfor%}
+                {% endif%}
+                <form action="" class="form-control" method="post" novalidate>
+                    {{registerform.csrf_token()}}
+                    <h2 class="text-center">Create Account</h2>
+                    <div>
+                        {{registerform.firstname.label(class="pt-3 pb-1 ps-2")}} <br>
+                        {{registerform.firstname(class="form-control",placeholder="FirstName")}}
+
+                        {%for error in registerform.firstname.errors%}
+                            <span class="text-danger">{{error}}</span>
+                        {%endfor%}
+                    </div>
+                    <div>
+                        {{registerform.lastname.label(class="pt-3 pb-1 ps-2")}} <br>
+                        {{registerform.lastname(class="form-control",placeholder="LastName")}}
+
+                        {%for error in registerform.lastname.errors%}
+                            <span class="text-danger">{{error}}</span>
+                        {%endfor%}
+                    </div>
+                    <div>
+                        {{registerform.username.label(class="pt-3 pb-1 ps-2")}}<br>
+                        {{registerform.username(class="form-control",placeholder="Username",id="username")}} 
+                        <button type="button" class="btn btn-primary btn-sm mt-1" id="checkUsername">check username</button> 
+                        <span id="usernamecheck"></span>
+
+                        {%for error in registerform.username.errors%}
+                            <span class="text-danger">{{error}}</span>
+                        {%endfor%}
+                    </div>
+                    <div>
+                        {{registerform.phone.label(class="pt-3 pb-1 ps-2")}} <br>
+                        {{registerform.phone(class="form-control",placeholder="Phone Number")}}
+
+                        {%for error in registerform.phone.errors%}
+                            <span class="text-danger">{{error}}</span>
+                        {%endfor%}
+                    </div>
+                    <div>
+                        {{registerform.email.label(class="pt-3 pb-1 ps-2")}} <br>
+                        {% if request.cookies.get('email') %}
+                            {{registerform.email(class="form-control",placeholder="Email",value=request.cookies.get('email'))}}
+                        {% else %}
+                            {{registerform.email(class="form-control",placeholder="Email")}}
+                        {% endif %}
+
+                        {%for error in registerform.email.errors%}
+                            <span class="text-danger">{{error}}</span>
+                        {%endfor%}
+                    </div>
+                    <div>
+                        {{registerform.gender.label(class="pb-1 mt-3 ps-2")}} <br>
+                    </div>
+                    <div class="form-control">
+                        {%for gender in registerform.gender%}
+                        {{gender}} {{gender.label()}}
+                        {%endfor%}
+
+                        {%for error in registerform.gender.errors%}
+                           <br> <span class="text-danger">{{error}}</span>
+                        {%endfor%}
+                    </div>
+                    <div>
+                        {{registerform.password.label(class="pt-3 pb-1 ps-2")}} <br>
+                        {{registerform.password(class="form-control",placeholder="Password")}}
+
+                        {%for error in registerform.password.errors%}
+                            <span class="text-danger">{{error}}</span>
+                        {%endfor%}
+                    </div>
+                    <div>
+                        {{registerform.confirm_password.label(class="pt-3 pb-1 ps-2")}} <br>
+                        {{registerform.confirm_password(class="form-control",placeholder="Confirm Password")}}
+
+                        {%for error in registerform.confirm_password.errors%}
+                            <span class="text-danger">{{error}}</span>
+                        {%endfor%}
+                    </div>
+                    <div class="pt-2 ps-1">
+                        {{registerform.agree(class="form-check ms-2")}}
+                        {{registerform.agree.label(class="ps-2")}}
+
+                        {%for error in registerform.agree.errors%}
+                            <span class="text-danger">{{error}}</span>
+                        {%endfor%}
+                    </div>
+                    <div class="py-3">
+                        {{registerform.submit(class="btn btn-danger col-12")}}
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-6 py-2 align-content-center text-center bg-secondary rounded">
+                <h2>Welcome to See Arts</h2>
+                <h4>Please enter your details to continue</h4>
+                <span>Already have an account?</span>
+                <a href="{{url_for('login')}}" class="btn btn-success btn-sm">Login Here</a>
+            </div>
+          </div>
+          <!-- register form end -->
+
+          <!-- footer start -->
+          {% include "footer.html"%}
+          <!-- footer completion start -->
+<script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="/static/js/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function(){
+       $('#checkUsername').click(function(){
+        var checkuser = $('#username').val()
+        var data2send ={csrf_token:'{{csrf_token()}}',username:checkuser} 
+  
+        $.ajax({
+            url:"{{url_for('check_username')}}",
+            type:'POST',
+            data:data2send,
+            success:function(resp){
+                // alert(resp);
+                $('#usernamecheck').html(resp)
+            },
+            error:function(err){
+                console.log(err)
+            },
+            complete:function(msg){
+                
+            }
+        })
+       })
+    })
+</script>
+</body>
+</html>
+
+<!-- footer completion end -->

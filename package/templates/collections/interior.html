@@ -1,0 +1,67 @@
+{% include "header.html"%}
+        <!-- Navbar end -->
+
+        <!-- collection Area -->
+        <div class="row">
+          <div class="col">            
+              <header class="mb-4 text-center mt-5">
+                <h3 class="fw-bold">Interior Designs</h3>
+              </header>
+              <div class="row">
+                <div class="col text-center banner_text py-3">
+                  <span><a href="{{url_for('collections')}}" class="px-3 collection_link">All Collections</a></span>
+                  <span><a href="{{url_for('sketches')}}" class="px-3 collection_link">Sketch and Drawings</a></span>
+                  <span><a href="{{url_for('paintings')}}" class="px-3 collection_link">paintings</a></span>
+                  <span><a href="{{url_for('embroideries')}}" class="px-3 collection_link">Embroideries</a></span>
+                  <span><a href="{{url_for('sculptures')}}" class="px-3 collection_link">Sculptures</a></span>
+                  <span><a href="{{url_for('interiors')}}" class="px-3 collection_link fw-bold rounded border border-3 border-tertiary">Interior designs</a></span>
+                </div>
+              </div>          
+              <div class="row">
+                {% for a in artworks%}
+                  {% for c in categories%}
+                    {%if c.cat_id ==5 and a.art_category_id == c.cat_id %}
+                    <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
+                      <div class="card w-100  my-2 shadow-2-strong">
+                        <a href="/product/details/{{a.art_id}}/">
+                        <img src="/static/uploads/{{a.art_image}}" class="card-img-top p-2" style="height: 18rem;"/>
+                        </a>
+                        <div class="card-body d-flex flex-column">
+                          <h5 class="card-title">&#8358; {{a.art_price}}</h5>
+                          <p> {{a.art_description}} </p>
+                          <p class="card-text fw-bold">  {{c.cat_name}}</p>
+
+                          <div class="card-footer d-flex align-items-end pt-1 px-2 pb-1 mt-auto">
+                            <a href="/product/details/{{a.art_id}}/" class="btn btn-success rounded-0 add-to-cart" type="button">View Product</a>
+                            {% for s in sellers%}
+                            {% if a.art_seller_id == s.seller_id and loggedin.user_id == s.seller_user_id %}
+                            <a href="/edit/post/{{a.art_id}}" class="btn btn-primary rounded-0 mx-1">Edit</a>
+                            {%endif%}
+                            {%endfor%}
+                          </div>
+                         
+                        </div>
+                      </div>
+                    </div> 
+                   {%endif%}
+                {%endfor%}
+               {%endfor%}  
+              </div>         
+          </div>
+        </div>
+        <!-- collection area end-->
+
+        <!-- Footer -->
+        {% include "footer.html"%}
+        <!-- footer completion start -->
+<script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="/static/js/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function(){
+      
+    })
+</script>
+</body>
+</html>
+
+<!-- footer completion end -->

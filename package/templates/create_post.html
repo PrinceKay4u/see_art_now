@@ -1,0 +1,61 @@
+{% include "header.html"%}
+        <!-- Login form start -->
+        <div class="row my-5 mx-3" id="loginform">
+            <div class="col-sm-6 offset-sm-3">
+              {% set msg = get_flashed_messages(with_categories=True)%}
+              {% if msg %}
+                {% for cat,message in msg %}
+                  {% if cat == 'failed'%}
+                    <p class="alert alert-danger">{{message}}</p>
+                  {%endif%}
+                  {% if cat == 'success'%}
+                    <p class="alert alert-success">{{message}}</p>
+                  {%endif%}
+                {%endfor%}
+              {% endif%}
+              </div>
+              </div>
+              <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <form action="/see-art/upload/post/{{seller.seller_id}}/" method="post" class="form-control" novalidate enctype="multipart/form-data">
+                        {{cp.csrf_token()}}
+                        <h2>Create post in {{cat_sellers.cat_name}}</h2>
+                        <div class="mb-3">
+                            {{cp.description.label(class=" mb-2")}}
+                            {{cp.description(class="form-control")}}
+                            {% for errors in cp.description.errors %}
+                            <span class="text-danger">{{error}}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="mb-3">
+                            {{cp.price.label(class="mb-2")}}
+                            {{cp.price(class="form-control")}}
+                            {% for errors in cp.price.errors %}
+                            <span class="text-danger">{{error}}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="mb-3">
+                            {{cp.image.label(class="mb-2")}}
+                            {{cp.image(class="form-control")}}
+                            {% for errors in cp.image.errors %}
+                            <span class="text-danger">{{error}}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="mb-3">
+                            {{cp.post(class="btn btn-dark col-12",id="ajaxupdate")}}
+                        </div>
+                    </form>
+                </div>
+              </div>
+          <!-- Login form end -->
+
+          <!-- footer start -->
+          {% include "footer.html"%}
+          <!-- footer completion start -->
+<script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="/static/js/jquery-3.7.1.min.js"></script>
+
+</body>
+</html>
+
+<!-- footer completion end -->

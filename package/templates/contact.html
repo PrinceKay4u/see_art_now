@@ -1,0 +1,49 @@
+{% include "header.html"%}
+          <!-- Navbar end -->
+
+          <!-- contact form area -->
+          <div class="row">
+            <div class="col-md-12 text-center pt-3">
+              <h5>Do you Have anything You want us to improve on? Send us a message today</h5>
+              <h5>We would love to here your feedback</h5>
+              {% with messages = get_flashed_messages() %}
+                {%if messages%}
+                  {%for msg in messages%}
+                    <p class="text-success">{{msg}}</p>
+                  {%endfor%}
+                {%endif%}
+              {%endwith%}
+            </div>
+            <div class="col-md-6 offset-md-3">
+              <form action="" class="form-control" method="post" novalidate>
+                {{contactform.csrf_token}}
+                <h2 class="text-center text-info">Feedback Form</h2>
+                <div>
+                    {{contactform.message.label(class="pt-3 pb-1 ps-2")}}
+                    {{contactform.message(class="form-control")}}
+                    
+                      {%for error in contactform.message.errors%}
+                        <span class="text-danger">{{error}}</span>
+                      {%endfor%}
+                </div>
+                <div>
+                    {{contactform.email.label(class="pt-3 pb-1 ps-2")}}
+                    {{contactform.email(class="form-control",placeholder="This is optional")}}
+                </div>
+                <div class="py-3">
+                    {{contactform.submit(class="btn btn-success col-12")}}
+                </div>
+            </form>
+            </div>
+          </div>
+          <!-- contact area end -->
+
+          <!-- Footer -->
+          {% include "footer.html"%}
+          <!-- footer completion start -->
+          <script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+          <script src="/static/js/jquery-3.7.1.min.js"></script>
+          </body>
+          </html>
+
+          <!-- footer completion end -->

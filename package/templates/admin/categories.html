@@ -1,0 +1,61 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}
+All Categories
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col">
+        {% set msg = get_flashed_messages(with_categories=True)%}
+        {% if msg %}
+        {% for cat,message in msg %}
+            {% if cat == 'failed'%}
+            <p class="alert alert-danger">{{message}}</p>
+            {%endif%}
+            {% if cat == 'success'%}
+            <p class="alert alert-success">{{message}}</p>
+            {%endif%}
+        {%endfor%}
+        {% endif%}
+        <h1 class="text-center border-bottom border-2 border-dark pb-2 my-3">All Categories</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <table class="table table-dark table-striped-columns table-hover">
+            <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>Category name</th>
+                    <th>Sellers in category</th>
+                    <th>Items in category</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                <tr>
+                    <td> {{loop.index}} </td>
+                    <td> {{category.cat_name}} </td>
+                    <td> {{category.sellers|length}} </td>
+                    <td> {{category.artworks|length}} </td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+
+{% block scripts %}
+<script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="/static/js/jquery-3.7.1.min.js"></script>     
+{% endblock %}

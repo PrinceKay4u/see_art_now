@@ -1,0 +1,103 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}
+Admin Dashboard
+{% endblock %}
+
+{% block content %}
+
+{% set msg = get_flashed_messages(with_categories=True)%}
+{% if msg %}
+  {% for cat,message in msg %}
+    {% if cat == 'failed'%}
+      <p class="alert alert-danger">{{message}}</p>
+    {%endif%}
+    {% if cat == 'success'%}
+      <p class="alert alert-success">{{message}}</p>
+    {%endif%}
+  {%endfor%}
+{% endif%}
+
+<h2>Dashboard</h2>
+<p>This is your admin dashboard.</p>
+
+<div class="accordion" id="adminAccordion">
+    <!-- Users -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingUsers">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUsers" aria-expanded="false" aria-controls="collapseUsers">
+          Users
+        </button>
+      </h2>
+      <div id="collapseUsers" class="accordion-collapse collapse" aria-labelledby="headingUsers" data-bs-parent="#adminAccordion">
+        <div class="accordion-body">
+          Total registered users: {{users|length}}
+        </div>
+      </div>
+    </div>
+  
+    <!-- Products -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingProducts">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProducts" aria-expanded="false" aria-controls="collapseProducts">
+          Artworks
+        </button>
+      </h2>
+      <div id="collapseProducts" class="accordion-collapse collapse" aria-labelledby="headingProducts" data-bs-parent="#adminAccordion">
+        <div class="accordion-body">
+          Posted Artworks: {{artworks|length}}
+        </div>
+      </div>
+    </div>
+  
+    <!-- Orders -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOrders">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOrders" aria-expanded="false" aria-controls="collapseOrders">
+          Orders
+        </button>
+      </h2>
+      <div id="collapseOrders" class="accordion-collapse collapse" aria-labelledby="headingOrders" data-bs-parent="#adminAccordion">
+        <div class="accordion-body">
+          Total orders: {{orders|length}}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="col-md-4">
+    <div class="card text-bg-success mb-3 mt-3">
+      <div class="card-body">
+        <h5 class="card-title">Arworks</h5>
+        <p class="card-text">Posted Artworks: {{artworks|length}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card text-bg-warning mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Sellers</h5>
+        <p class="card-text">Total Sellers: {{sellers|length}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card text-bg-success mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Sellers</h5>
+        <p class="card-text">Total Payments made: {{payments|length}}</p>
+      </div>
+    </div>
+  </div>
+  
+{% endblock %}
+
+
+
+{% block scripts %}
+<script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="/static/js/jquery-3.7.1.min.js"></script>     
+{% endblock %}

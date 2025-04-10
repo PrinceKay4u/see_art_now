@@ -1,0 +1,100 @@
+{% include "header.html"%}
+<!-- Navbar end -->
+<div class="row">
+    <div class="col">
+        {% set msg = get_flashed_messages(with_categories=True)%}
+        {% if msg %}
+            {% for cat,message in msg %}
+            {% if cat == 'failed'%}
+                <p class="alert alert-danger">{{message}}</p>
+            {%endif%}
+            {% if cat == 'success'%}
+                <p class="alert alert-success">{{message}}</p>
+            {%endif%}
+            {%endfor%}
+        {% endif%}
+    </div>
+</div>
+<!-- alert message -->
+<div class="row">
+    <div class="col">
+        <div id="custom-alert" style="display:none; position:fixed; top:10%; left:50%; transform:translate(-50%, -50%); background:#4caf50; color:white; padding:10px 20px; border-radius:5px; z-index:9999;">
+           Cart cleared
+          </div>
+          
+    </div>
+ </div>
+ <!-- alert message end -->
+<div class="row">
+    <div class="col">
+        <h1 class="text-center border-top border-1 border-dark m-3 py-2">Paid Orders</h1>
+    </div>
+</div>
+{%if seller%}
+<div class="row border-top border-bottom border-2 border-dark">
+    <div class="col-md-10">
+        {% for order in placed_orders %}
+        {% for detail in order.order_details %}
+        {% for seller in artseller %}
+        {% if seller.seller_category_id == detail.artwork.art_category_id and order.order_user_id== loggedin.user_id and seller.seller_user_id != loggedin.user_id%}
+        <div class="row border-bottom border-2 border-dark mb-2 p-3 mx-1">
+            <div class="col-md-4">
+               <img src="/static/uploads/{{detail.artwork.art_image}}" alt="" style="width: 15rem;" class="img-fluid p-2 border border-1 border-dark">
+            </div>
+            <div class="col-md-6">
+                <h3 class="mb-3">Status: paid </h3>
+                <p class="fs-4">&#8358; {{detail.artwork.art_price}} </p>
+                <p>Your Recieving Address: <span class="fs-5 fw-normal">{{order.order_address}}</span></p>
+                <p>Seller email: <span class="fs-5 fw-normal">{{seller.seller_detail.user_email}}</span></p>
+                <p>Seller phone: <span class="fs-5 fw-normal">{{seller.seller_detail.user_phone}}</span></p>
+                <p>Order Time: <span class="fs-5 fw-normal">{{order.order_time}}</span></p>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+        {% endfor %}
+    </div>
+    <div class="col-md-3">
+    </div>
+</div>
+{%else%}
+<div class="row border-top border-bottom border-2 border-dark">
+    <div class="col-md-10">
+        {% for order in placed_orders %}
+        {% for detail in order.order_details %}
+        {% for seller in artseller %}
+        {% if seller.seller_category_id == detail.artwork.art_category_id and order.order_user_id== loggedin.user_id and seller.seller_id==detail.artwork.art_seller_id%}
+        <div class="row border-bottom border-2 border-dark mb-2 p-3 mx-1">
+            <div class="col-md-4">
+               <img src="/static/uploads/{{detail.artwork.art_image}}" alt="" style="width: 15rem;" class="img-fluid p-2 border border-1 border-dark">
+            </div>
+            <div class="col-md-6">
+                <h3 class="mb-3">Status: paid </h3>
+                <p class="fs-4">&#8358; {{detail.artwork.art_price}} </p>
+                <p>Your Recieving Address: <span class="fs-5 fw-normal">{{order.order_address}}</span></p>
+                <p>Seller email: <span class="fs-5 fw-normal">{{seller.seller_detail.user_email}}</span></p>
+                <p>Seller phone: <span class="fs-5 fw-normal">{{seller.seller_detail.user_phone}}</span></p>
+                <p>Order Time: <span class="fs-5 fw-normal">{{order.order_time}}</span></p>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+        {% endfor %}
+    </div>
+    <div class="col-md-3">
+    </div>
+</div>
+{%endif%}
+
+
+{% include "footer.html"%}
+<!-- footer completion start -->
+<script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="/static/js/jquery-3.7.1.min.js"></script>
+
+</body>
+</html>
+
+<!-- footer completion end -->

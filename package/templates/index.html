@@ -1,0 +1,181 @@
+{% include "header.html"%}
+        <!-- Navbar end -->
+
+      <!-- home text section -->
+        <div class="row">
+            <div class="col banner_text">
+              <div class="row text-md-center">
+                <div class="col d-none d-md-block p-lg-5 m-5">
+                <h1 class="text-secondary fw-bold">SEE ART ~~ SEE POSSIBILITIES</h1>
+                <p class="text-dark">Bringing different kinds of art and artists closer to you</p>
+                </div>
+              </div>
+            </div>
+        </div>
+        <!-- mini collection area -->
+        <div class="row pb-3">
+          <div class="col-12 py-3">
+            <h2 class="text-center">Click <a href="{{url_for('collections')}}" class="imglinks">here</a> to view more</h2>
+          </div>
+        <!-- Carousel 1 -->
+        <div class="col-md-4 col-10 offset-1 offset-md-0">
+          <div id="artworks1" class="carousel slide">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#artworks1" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#artworks1" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            </div>
+            <div class="carousel-inner rounded-4 border border-3 border-danger">
+              <div class="carousel-item active">
+                <a href="{{url_for('collections')}}"><img src="/static/images/sketch/sketch1.jpg" class="d-block w-100" alt="..."></a>
+                <div class="carousel-caption d-none d-md-block">
+                  <h5 class="bg-dark">Sketches</h5>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <a href="{{url_for('collections')}}"><img src="/static/images/inner/inner1.jpg" class="d-block w-100" alt="..."></a>
+                <div class="carousel-caption d-none d-md-block">
+                  <h5 class="bg-dark">Interior Designs</h5>
+                </div>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#artworks1" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#artworks1" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+        <!-- Carousel 2 -->
+        <div class="col-md-4 col-10 offset-1 offset-md-0 my-2">
+          <div id="artworks2" class="carousel slide">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#artworks2" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#artworks2" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            </div>
+            <div class="carousel-inner rounded-4 border border-3 border-danger">
+              <div class="carousel-item active">
+                <a href="{{url_for('collections')}}"><img src="/static/images/paint/paint1.jpg" class="d-block w-100" alt="..."></a>
+                <div class="carousel-caption d-none d-md-block">
+                  <h5 class="bg-dark">Paintings</h5>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <a href="{{url_for('collections')}}"><img src="/static/images/paint/paint2.jpg" class="d-block w-100" alt="..."></a>
+                <div class="carousel-caption d-none d-md-block">
+                  <h5 class="bg-dark">Paintings</h5>
+                </div>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#artworks2" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#artworks2" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+        <!-- Carousel 3 -->
+        <div class="col-md-4 col-10 offset-1 offset-md-0">
+          <div id="artworks3" class="carousel slide">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#artworks3" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#artworks3" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            </div>
+            <div class="carousel-inner rounded-4 border border-3 border-danger">
+              <div class="carousel-item active">
+                <a href="{{url_for('collections')}}"><img src="/static/images/embroid/embroid1.jpg" class="d-block w-100" alt="..."></a>
+                <div class="carousel-caption d-none d-md-block">
+                  <h5 class="bg-dark">embroideries</h5>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <a href="{{url_for('collections')}}"><img src="/static/images/sculpt/sculpt1.jpg" class="d-block w-100" alt="..."></a>
+                <div class="carousel-caption d-none d-md-block">
+                  <h5 class="bg-dark">Sculptures</h5>
+                </div>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#artworks3" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#artworks3" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+        <!-- Carousel end -->
+      </div>
+
+        <!-- Featured Products -->
+        <div class="row">
+          <header class="mb-2 text-center mt-5">
+            <h3>Featured products</h3>
+          </header> 
+            {% for a in artworks%}
+            <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
+              <div class="card w-100  my-2 shadow-2-strong">
+                <a href="/product/details/{{a.art_id}}/">
+                <img src="/static/uploads/{{a.art_image}}" class="card-img-top p-2" style="height: 18rem;" />
+                </a>
+                <div class="card-body d-flex flex-column product-item" data-artwork="{{a.art_id}}">
+                  <h5 class="card-title">&#8358; {{a.art_price}}</h5>
+                  <p> {{a.art_description}} </p>
+                  <p class="card-text fw-bold">{% for c in categories%} {%if a.art_category_id == c.cat_id %} {{c.cat_name}} {%endif%} {%endfor%}</p>
+                  <div class="card-footer d-flex align-items-end pt-1 px-2 pb-1 mt-auto">
+                    <a href="/product/details/{{a.art_id}}/" class="btn btn-success rounded-0 add-to-cart" type="button">View Product</a>
+                    <!-- <a href="#!" class="btn btn-light border icon-hover ms-5"><img src="/static/images/bookmark.png" alt="bookmark" width="70%"></a> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            {%endfor%}
+        </div> 
+        <div class="row">
+          <div class="col">
+            {% if page > 1%}
+              <a href="{{url_for('index',page=page-1)}}" class='btn btn-success'><<</a>
+              {%endif%}
+              <span> page {{page}} of {{total_pages}} </span>
+              {% if page < total_pages %}
+              <a href="{{url_for('index',page=page+1)}}" class="btn btn-success">>></a>
+              {%endif%}
+          </div>
+        </div>
+        
+
+        <!-- why was this site built -->
+       <div class="row my-3">
+        <div class="col-md-12 text-center">
+          <h3 class="text-dark border-bottom border-top border-secondary-subtle py-4 fw-bold">Why was this website created?</h3>
+        </div>
+        <div class="col-md-6 offset-md-3 border-start border-end border-seondary-subtle">
+          <h4>Love of all things artistic</h2>
+          <p>We all love art right? Maybe not all, but a lot of us do, if you're here, you certainly do love art.</p>
+          <p>Sometimes we see drawings,designs,paintings that we like, but more often than not we don't know how to get in contact with the artist because we have no idea who they are, or maybe we do not want to place an order at the moment. Some artists and designers are having a hard time showing the quality of their work and the value for money that they can offer.</p>
+          <p class="mb-0"><strong>That is why we came up with  solution to bridge that gap:</strong></p>
+          <ul>
+            <li>People can now see different types of art and can also contact the artist or designer with ease, all while sitting at the comfort of their homes</li>
+            <li>Different kind of artist and designers can now show their works and offer value for money to the customers</li>
+          </ul>
+          <p class="mb-1 bold">Don't like what you see in the collection?</p>
+          <p class="mb-0">Contact the artist or designer for a custom order. It has been made very easy for you to do so.</p>
+          <p>You can also see reviews from past buyers</p>
+        </div>
+       </div>
+
+        <!-- Footer -->
+        {% include "footer.html"%}
+        <!-- footer completion start -->
+<script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="/static/js/jquery-3.7.1.min.js"></script>
+</body>
+</html>
+
+<!-- footer completion end -->

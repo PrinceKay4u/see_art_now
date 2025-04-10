@@ -1,0 +1,125 @@
+{% include "header.html"%}
+<!-- Navbar end -->
+<div class="row">
+    <div class="col">
+        {% set msg = get_flashed_messages(with_categories=True)%}
+        {% if msg %}
+            {% for cat,message in msg %}
+            {% if cat == 'failed'%}
+                <p class="alert alert-danger">{{message}}</p>
+            {%endif%}
+            {% if cat == 'success'%}
+                <p class="alert alert-success">{{message}}</p>
+            {%endif%}
+            {%endfor%}
+        {% endif%}
+    </div>
+</div>
+<!-- alert message -->
+<div class="row">
+    <div class="col">
+        <div id="custom-alert" style="display:none; position:fixed; top:10%; left:50%; transform:translate(-50%, -50%); background:#4caf50; color:white; padding:10px 20px; border-radius:5px; z-index:9999;">
+           Cart cleared
+          </div>
+          
+    </div>
+ </div>
+ <!-- alert message end -->
+<div class="row">
+    <div class="col">
+        <h1 class="text-center border-top border-1 border-dark m-3 py-2">Your Cart</h1>
+    </div>
+</div>
+<div class="row border-top border-bottom border-2 border-dark">
+    <div class="col-md-7">
+        {% for a in cart_items %}
+        {% for c in categories %}
+        {% if a.art_category_id == c.cat_id %}
+        <div class="row border-bottom border-2 border-dark mb-2 p-3 mx-3">
+            <div class="col-4">
+                <img src="/static/uploads/{{a.art_image}}" alt="{{a.art_id}}" style="width: 15rem;" class="img-fluid p-2 border border-1 border-dark">
+            </div>
+            <div class="col-6">
+                <h3 class="mb-3">{{a.art_description}}</h3>
+                <p class="fs-4">&#8358; {{a.art_price}}</p>
+                <a href="
+                {% if a.art_category_id == 1%}
+                {{url_for('sketches')}}
+                {%endif%}
+                {% if a.art_category_id == 2%}
+                {{url_for('embroideries')}}
+                {%endif%}
+                {% if a.art_category_id == 3%}
+                {{url_for('paintings')}}
+                {%endif%}
+                {% if a.art_category_id == 4%}
+                {{url_for('sculptures')}}
+                {%endif%}
+                {% if a.art_category_id == 5%}
+                {{url_for('interiors')}}
+                {%endif%}
+                " class="btn btn-dark rounded-0">View other items in this category</a>
+            </div>
+        </div>
+        {%endif%}
+        {%endfor%}
+        {%endfor%}
+    </div>
+    <div class="col-md-3">
+        <div class="row p-3">
+            <div class="col border border-2 border-dark" style="min-height: 13rem;">
+                <h4>Order Summary</h4>
+                <p>Total: &#8358; {{total}}</p>
+                <form action="" method="post">
+                    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                    <input type="hidden" name="items" value="{{cart_items}}">
+                    <label for="address">Enter your delivery address</label>
+                    <input type="text" name="address" id="" placeholder="Address" class="form-control" required>
+                    <button class="btn btn-dark col-12 rounded-0 mt-3">Checkout</button>
+                </form>
+            </div>
+            <div class="col-12 mt-3">
+                <button class="btn btn-danger col-12 rounded-0" id="clearcart">Clear cart</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% include "footer.html"%}
+<!-- footer completion start -->
+<script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="/static/js/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#clearcart').click(function(){
+        
+        var data2send = {csrf_token:'{{csrf_token()}}'}
+        
+            $.ajax({
+                url:"/clear-cart/",
+                type:'POST',
+                data:data2send,
+                success:function(resp){
+
+                    $('#custom-alert').html(resp);
+                    $('#cart-items').html("0")
+                    $('#custom-alert').fadeIn();
+
+                    setTimeout(function(){
+                    $('#custom-alert').fadeOut();
+                    }, 2000);
+
+  
+                },
+                error:function(err){
+                    console.log(err)
+                }
+            })
+       })
+    })
+</script>
+</body>
+</html>
+
+<!-- footer completion end -->

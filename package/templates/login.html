@@ -1,0 +1,56 @@
+{% include "header.html"%}
+        <!-- Login form start -->
+          <div class="row my-5 mx-3" id="loginform">
+            <div class="col-sm-6 offset-sm-3">
+              {% set msg = get_flashed_messages(with_categories=True)%}
+              {% if msg %}
+                {% for cat,message in msg %}
+                  {% if cat == 'failed'%}
+                    <p class="alert alert-danger">{{message}}</p>
+                  {%endif%}
+                  {% if cat == 'success'%}
+                    <p class="alert alert-success">{{message}}</p>
+                  {%endif%}
+                {%endfor%}
+              {% endif%}
+              <form action="" class="form-control" method="post" novalidate>
+                    {{loginform.csrf_token()}}
+                    <h2 class="text-center">Login</h2>
+                    <div>
+                      {{loginform.email.label(class="pt-3 pb-1 ps-3")}} <br>
+                      {{loginform.email(class="form-control",placeholder="Email")}}
+
+                      {%for error in loginform.email.errors%}
+                        <span class="text-danger">{{error}}</span>
+                      {%endfor%}
+                    </div>
+                    <div>
+                      {{loginform.password.label(class="pt-3 pb-1 ps-3")}} <br>
+                      {{loginform.password(class="form-control",placeholder="Password")}}
+
+                      {%for error in loginform.password.errors%}
+                        <span class="text-danger">{{error}}</span>
+                      {%endfor%}
+                    </div>
+                    <div class="py-3">
+                      {{loginform.send(class="btn btn-success col-12")}}
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-6 offset-sm-3 py-3 align-content-center text-center bg-body-tertiary rounded border border-3 border-dark">
+                <h2>Welcome back</h2>
+                <span>Dont't have an account?</span>
+                <a href="{{url_for('register')}}" class="btn btn-danger btn-sm">Register Now</a>
+            </div>
+          </div>
+          <!-- Login form end -->
+
+          <!-- footer start -->
+          {% include "footer.html"%}
+          <!-- footer completion start -->
+<script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="/static/js/jquery-3.7.1.min.js"></script>
+</body>
+</html>
+
+<!-- footer completion end -->

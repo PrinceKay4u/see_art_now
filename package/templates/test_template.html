@@ -1,0 +1,48 @@
+{% include "header.html"%}
+        <!-- Login form start -->
+          <div class="row my-5 mx-3" id="loginform">
+            <div class="col-sm-6 offset-sm-3">
+              {% set msg = get_flashed_messages(with_categories=True)%}
+              {% if msg %}
+                {% for cat,message in msg %}
+                  {% if cat == 'failed'%}
+                    <p class="alert alert-danger">{{message}}</p>
+                  {%endif%}
+                  {% if cat == 'success'%}
+                    <p class="alert alert-success">{{message}}</p>
+                  {%endif%}
+                {%endfor%}
+              {% endif%}
+              </div>
+              </div>
+          <div class="row">
+            <div class="col">
+              <ul>
+                {% for art in items %}
+                  <li>{{ art.art_image }}
+                {% endfor %}
+              </ul>
+              {% if page > 1%}
+              <a href="{{url_for('test_template',page=page-1)}}">Previous</a>
+              {%endif%}
+              <span> page {{page}} of {{total_pages}} </span>
+              {% if page < total_pages %}
+              <a href="{{url_for('test_template',page=page+1)}}">Next</a>
+              {%endif%}
+
+            </div>
+          </div>     
+
+             
+            
+         
+          <!-- Login form end -->
+          <!-- footer start -->
+          {% include "footer.html"%}
+          <!-- footer completion start -->
+<script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="/static/js/jquery-3.7.1.min.js"></script>
+</body>
+</html>
+
+<!-- footer completion end -->
