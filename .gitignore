@@ -7,3 +7,9 @@ package/static/admin/
 instance/config.py
 migrations/
 __pycache__/
+
+
+you need jquery-3.7.1
+Create an instance config folder in the package
+You need to link bootstrap to load the file
+You need to install the requirements to load the file
