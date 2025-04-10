@@ -127,7 +127,7 @@ def profile():
     if seller:
         seller_cat = db.session.query(Sellers).get(seller.seller_id)
         cat_sellers = db.session.query(Categories).filter_by(cat_id=seller_cat.category.cat_id).first()
-        artworks = db.session.query(Artworks).filter_by(art_seller_id=seller.seller_id).first()
+        artworks = db.session.query(Artworks).filter_by(art_seller_id=seller.seller_id).all()
         pending_deliveries = db.session.query(Orders).filter(Orders.order_user_id!=loggedin.user_id,Orders.order_id==Payment.payment_order_id,Orders.order_status=='pending',OrderDetails.order_art_id==Artworks.art_id,Artworks.art_seller_id==seller.seller_id,Payment.payment_status=='completed').all()
     # artworks = db.session.query(Artworks).filter_by(art_seller_id=seller.seller_id).all()
     placed_orders = db.session.query(Orders).filter(Orders.order_user_id==loggedin.user_id,Orders.order_id==Payment.payment_order_id,Payment.payment_status=='completed').all()
@@ -216,9 +216,6 @@ def test_template():
         loggedin = None
     seller_deets = db.session.query(User).all()
     artworks = db.session.query(Artworks).all()
-    # items = db.paginate(db.select(Artworks).order_by(Artworks.art_posted_at),page=1,per_page=5)
-    # items = db.paginate(db.select(Artworks).order_by(Artworks.art_posted_at),page=1,per_page=5)
-    # items = db.session.query(Artworks).all()
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 4, type=int)
     pagination = db.paginate(db.select(Artworks).order_by(Artworks.art_posted_at), page=page, per_page=per_page, error_out=False)
