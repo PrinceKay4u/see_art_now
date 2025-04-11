@@ -9,6 +9,8 @@ def ensure_sessions_exists():
         session['cart'] = []
     if 'isloggedin' not in session:
         session['isloggedin'] = None
+    if User.query.get(session.get('isloggedin')) == None:
+        session.pop('isloggedin')
 
 @app.after_request
 def after_request(response):
@@ -55,7 +57,6 @@ def index():
         loggedin = User.query.get(userid)
     else:
         loggedin = None
-    # artworks = Artworks.query.all()
     sellers = Sellers.query.all()
     categories = Categories.query.all()
 
@@ -204,25 +205,5 @@ def personal_orders():
     
     return render_template('orders/my_orders.html',loggedin=loggedin,placed_orders=placed_orders,seller=seller,artseller=artseller)
 
-
-
-@app.route('/test/other/sellers/')
-def test_template():
-    userid = session.get('isloggedin')
-    if userid:
-        loggedin = User.query.get(userid)
-        seller = Sellers.query.filter_by(seller_user_id=loggedin.user_id).first()
-    else:
-        loggedin = None
-    seller_deets = db.session.query(User).all()
-    artworks = db.session.query(Artworks).all()
-    page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 4, type=int)
-    pagination = db.paginate(db.select(Artworks).order_by(Artworks.art_posted_at), page=page, per_page=per_page, error_out=False)
-    items = pagination.items if pagination.items else []
-    total_pages = pagination.pages if pagination.pages else 0
-    
-
-    return render_template('test_template.html',seller_deets=seller_deets,artworks=artworks,loggedin=loggedin,seller=seller,items=items,total_pages=total_pages,page=page)
 
 

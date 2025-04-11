@@ -1,9 +1,10 @@
 import secrets
 from flask import Flask,render_template,redirect,request,session,flash,url_for,make_response
 from werkzeug.security import generate_password_hash,check_password_hash
-from package import app
+from package import app,mail
 from package.forms import RegisterForm,LoginForm,ContactForm,PublicDetailForm,PrivateDetailForm,PasswordChange,SellersForm,CreatePost,EditPost
 from package.models import db,User,Sellers,Categories,Artworks
+from flask_mail import Message
 
 @app.route('/see-art/login/',methods=['POST','GET'])
 def login():
@@ -30,7 +31,7 @@ def login():
         else:
             flash('This email is not registered yet',category='failed')
             return redirect(url_for('login'))
-    return render_template('login.html',loginform=loginform)
+    return render_template('login.html',loginform=loginform,loggedin=loggedin)
 
 
 @app.route('/checkusername/',methods=['POST'])
@@ -95,7 +96,11 @@ def register():
         id = user.user_id
         
         if id:
-            flash('Account registered successfully, please login to continue',category='success')
+            msg = Message(subject='Welcome to See Art - Let Your Creativity Shine!',sender=('See Art Now',email),recipients=[email])
+            # msg.body = contactform.message.data+f'\n My email is {email}'
+            msg.html = f'<html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>See Art Now</title> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" type="text/css"> </head> <body> <nav class="navbar navbar-expand-lg bg-body-tertiary"> <div class="container-fluid"> <a href="https://postimg.cc/jwkCvGRP"><img src="https://i.postimg.cc/jwkCvGRP/Screenshot-11-4-2025-95536-127-0-0-1.jpg"/></a> </div> </nav> <div class="container"> <div class="row"> <div class="col-10 offset-1"> <h2 class="text-center">Welcome to See Art Now</h2> <p class="mb-1">Hi {username},</p> <p class="mb-1"> Welcome to See Art - we are so excited to have you on board!</p> <p class="mb-1">Whether you are here to discover unique creations or share your artistic talent with the world, you are in the right place. See Art connects buyers with amazing artists, including painters, potters, embroiderers, interior designers, and more.</p> <p>✨ Here is what you can do:</p> <ul> <li>Explore and purchase one-of-a-kind artworks</li> <li>Hire talented artists for custom pieces</li> <li>Build your own artist profile and showcase your work (if you are an artist!)</li> </ul> <p class="mb-1"> We are here to help you on your creative journey. If you have any questions or need assistance, just hit reply — we would love to hear from you.</p> <p class="mb-1">Happy exploring,</p> <p class="mb-1">The See Art Team</p> <p>[seeartnow.com.ng]</p> </div> </div> </div> </body> </html>'
+            mail.send(msg)
+            flash('Account registered successfully, please login to continue. Check your email for a message from us, You can check the spam folder if not found',category='success')
             return redirect(url_for('login'))
         else:
             flash('an error occured, please try again',category='failed')
@@ -112,7 +117,13 @@ def contact():
         loggedin = None
 
     if contactform.validate_on_submit():
-        flash('Feedback Recieved successfully',category='success')
+        email = 'amonymous@domain.com'
+        if contactform.email.data:
+            email = contactform.email.data
+        msg = Message(subject='Feedback From See Art',sender=('See Art Now',email),recipients=['seeartnow.com.ng@gmail.com'])
+        msg.body = contactform.message.data+f'\n My email is {email}'
+        mail.send(msg)
+        flash('Feedback Recieved successfully, Thank You For Reaching out to Us',category='success')
         return redirect('/see-art/contact-us/')
     return render_template('contact.html',contactform=contactform,loggedin=loggedin)
 

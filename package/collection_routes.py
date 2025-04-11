@@ -21,10 +21,17 @@ def collections():
         loggedin = User.query.get(userid)
     else:
         loggedin = None
-    artworks = Artworks.query.all()
+    # artworks = Artworks.query.all()
     sellers = Sellers.query.all()
-    categories = Categories.query.all()
-    return render_template('collections/collections.html',loggedin=loggedin,artworks=artworks,sellers=sellers,categories=categories)
+
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 8, type=int)
+    pagination = db.paginate(db.select(Artworks).order_by(Artworks.art_posted_at), page=page, per_page=per_page, error_out=False)
+    artworks = pagination.items if pagination.items else []
+    total_pages = pagination.pages if pagination.pages else 0
+
+
+    return render_template('collections/collections.html',loggedin=loggedin,artworks=artworks,sellers=sellers,categories=categories,total_pages=total_pages,page=page)
 
 @app.route('/see-art/embroideries/')
 def embroideries():
@@ -33,10 +40,15 @@ def embroideries():
         loggedin = User.query.get(userid)
     else:
         loggedin = None
-    artworks = Artworks.query.all()
     sellers = Sellers.query.all()
-    categories = Categories.query.all()
-    return render_template('collections/embroid.html',loggedin=loggedin,artworks=artworks,sellers=sellers,categories=categories)
+
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 4, type=int)
+    pagination = db.paginate(db.select(Artworks).filter(Artworks.art_category_id==2).order_by(Artworks.art_posted_at), page=page, per_page=per_page, error_out=False)
+    artworks = pagination.items if pagination.items else []
+    total_pages = pagination.pages if pagination.pages else 0
+
+    return render_template('collections/embroid.html',loggedin=loggedin,artworks=artworks,sellers=sellers,categories=categories,total_pages=total_pages,page=page)
 
 @app.route('/see-art/interiors/')
 def interiors():
@@ -45,10 +57,16 @@ def interiors():
         loggedin = User.query.get(userid)
     else:
         loggedin = None
-    artworks = Artworks.query.all()
     sellers = Sellers.query.all()
-    categories = Categories.query.all()
-    return render_template('collections/interior.html',loggedin=loggedin,artworks=artworks,sellers=sellers,categories=categories)
+
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 4, type=int)
+    pagination = db.paginate(db.select(Artworks).filter(Artworks.art_category_id==5).order_by(Artworks.art_posted_at), page=page, per_page=per_page, error_out=False)
+    artworks = pagination.items if pagination.items else []
+    total_pages = pagination.pages if pagination.pages else 0
+
+
+    return render_template('collections/interior.html',loggedin=loggedin,artworks=artworks,sellers=sellers,categories=categories,total_pages=total_pages,page=page)
 
 @app.route('/see-art/paintings/')
 def paintings():
@@ -57,10 +75,18 @@ def paintings():
         loggedin = User.query.get(userid)
     else:
         loggedin = None
-    artworks = Artworks.query.all()
+        
     sellers = Sellers.query.all()
-    categories = Categories.query.all()
-    return render_template('collections/painting.html',loggedin=loggedin,artworks=artworks,sellers=sellers,categories=categories)
+    
+
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 4, type=int)
+    pagination = db.paginate(db.select(Artworks).filter(Artworks.art_category_id==3).order_by(Artworks.art_posted_at), page=page, per_page=per_page, error_out=False)
+    artworks = pagination.items if pagination.items else []
+    total_pages = pagination.pages if pagination.pages else 0
+
+
+    return render_template('collections/painting.html',loggedin=loggedin,artworks=artworks,sellers=sellers,categories=categories,total_pages=total_pages,page=page)
 
 @app.route('/see-art/sculptures/')
 def sculptures():
@@ -69,10 +95,18 @@ def sculptures():
         loggedin = User.query.get(userid)
     else:
         loggedin = None
-    artworks = Artworks.query.all()
+        
     sellers = Sellers.query.all()
-    categories = Categories.query.all()
-    return render_template('collections/sculpt.html',loggedin=loggedin,artworks=artworks,sellers=sellers,categories=categories)
+    
+
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 4, type=int)
+    pagination = db.paginate(db.select(Artworks).filter(Artworks.art_category_id==4).order_by(Artworks.art_posted_at), page=page, per_page=per_page, error_out=False)
+    artworks = pagination.items if pagination.items else []
+    total_pages = pagination.pages if pagination.pages else 0
+
+
+    return render_template('collections/sculpt.html',loggedin=loggedin,artworks=artworks,sellers=sellers,categories=categories,total_pages=total_pages,page=page)
 
 @app.route('/see-art/sketches/')
 def sketches():
@@ -81,10 +115,17 @@ def sketches():
         loggedin = User.query.get(userid)
     else:
         loggedin = None
-    artworks = Artworks.query.all()
+        
     sellers = Sellers.query.all()
-    categories = Categories.query.all()
-    return render_template('collections/sketch.html',loggedin=loggedin,artworks=artworks,sellers=sellers,categories=categories)
+    
+
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 4, type=int)
+    pagination = db.paginate(db.select(Artworks).filter(Artworks.art_category_id==1).order_by(Artworks.art_posted_at), page=page, per_page=per_page, error_out=False)
+    artworks = pagination.items if pagination.items else []
+    total_pages = pagination.pages if pagination.pages else 0
+
+    return render_template('collections/sketch.html',loggedin=loggedin,artworks=artworks,sellers=sellers,categories=categories,total_pages=total_pages,page=page)
 
 @app.route('/product/details/<int:id>/')
 def item_details(id):
@@ -114,25 +155,7 @@ def add_to_cart(art_id):
         return "Item already in cart!"
 
 
-# @app.route('/add-to-carts/', methods=['POST'])
-# def add_to_carts():
-#     data = request.get_json()  
-#     art_id = data.get('art_id') 
 
-#     if not art_id:
-#         return jsonify({'message': 'No artwork ID received'}), 400
-
-#     cart = session.get('cart', [])
-    
-#     # Avoid duplicates (optional)
-#     if art_id not in cart:
-#         cart.append(art_id)
-#         session['cart'] = cart
-
-#     return jsonify({
-#         'message': 'Artwork added to cart!',
-#         'Items in cart': len(cart)
-#     })
 
     
 @app.route('/remove-from-cart/<int:art_id>',methods=['POST'])
@@ -273,6 +296,7 @@ def paysment_verify():
         update.payment_status = payment_status
         update.transaction_id = ref
         db.session.commit()
+
         # popping the saved session data incase the user comes back to the page after payment
         if session.get('refno') != None:
             session.pop('refno',None)
@@ -295,9 +319,6 @@ def paysment_verify():
     else:
         return redirect('/confirm/order/') 
 
-@app.route('/test/',methods=['POST'])
-def test():
-    return 'test id complete'
 
 
 

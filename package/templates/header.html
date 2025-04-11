@@ -29,6 +29,7 @@
                 {% endif %}
                 {% set online = session.get('isloggedin')%}
                 {% if online %}
+                {% if loggedin %}
                 <li class="nav-item">
                   <a href="{{url_for('profile')}}" class="text-primary fw-bold me-3 nav-link">Hi {{loggedin.username}}</a>
                 </li>
@@ -36,11 +37,13 @@
                   <a href="{{url_for('logout')}}" class="text-danger fw-bold me-3 nav-link">Logout</a>
                 </li>
                 {% endif %}
+                {% endif %}
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle text-dark fw-bold" href="{{url_for('collections')}}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Collections
                   </a>
                   <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{url_for('collections')}}">All Collections</a></li>
                     <li><a class="dropdown-item" href="{{url_for('sketches')}}">Sketches</a></li>
                     <li><a class="dropdown-item" href="{{url_for('embroideries')}}">Embroideries</a></li>
                     <li><a class="dropdown-item" href="{{url_for('paintings')}}">Paintings</a></li>

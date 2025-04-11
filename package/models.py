@@ -32,8 +32,8 @@ class Categories(db.Model):
 
 class Sellers(db.Model):
     seller_id= db.Column(db.Integer,primary_key=True,autoincrement=True)
-    seller_user_id= db.Column(db.Integer,db.ForeignKey('user.user_id', ondelete="CASCADE"),nullable=False)
-    seller_category_id= db.Column(db.Integer,db.ForeignKey('categories.cat_id', ondelete="CASCADE"),nullable=False)
+    seller_user_id= db.Column(db.Integer,db.ForeignKey('user.user_id', ondelete="CASCADE"),nullable=True)
+    seller_category_id= db.Column(db.Integer,db.ForeignKey('categories.cat_id', ondelete="CASCADE"),nullable=True)
     seller_reviews= db.Column(db.String(255))
     seller_joined= db.Column(db.DateTime,default=datetime.utcnow,nullable=False)
 
@@ -45,9 +45,9 @@ class Sellers(db.Model):
 
 class Artworks(db.Model):
     art_id= db.Column(db.Integer,primary_key=True,autoincrement=True)
-    art_seller_id= db.Column(db.Integer,db.ForeignKey('sellers.seller_id', ondelete="CASCADE"),nullable=False)
+    art_seller_id= db.Column(db.Integer,db.ForeignKey('sellers.seller_id', ondelete="CASCADE"),nullable=True)
     art_description= db.Column(db.String(255),nullable=False)
-    art_category_id= db.Column(db.Integer,db.ForeignKey('categories.cat_id', ondelete="CASCADE"),nullable=False)
+    art_category_id= db.Column(db.Integer,db.ForeignKey('categories.cat_id', ondelete="CASCADE"),nullable=True)
     art_price= db.Column(db.DECIMAL(10,2))
     art_posted_at= db.Column(db.DateTime,default=datetime.utcnow,nullable=False)
     art_quantity= db.Column(db.Integer,default=1)
@@ -61,18 +61,18 @@ class ArtImages(db.Model):
     __tablename__ = 'art_images'
     img_id = db.Column(db.Integer,primary_key=True,autoincrement=True)
     image_url = db.Column(db.String(255), nullable=False) 
-    img_art_id = db.Column(db.Integer, db.ForeignKey('artworks.art_id', ondelete="CASCADE"), nullable=False)
+    img_art_id = db.Column(db.Integer, db.ForeignKey('artworks.art_id', ondelete="CASCADE"), nullable=True)
 
 
 class Favorites(db.Model):
     fav_id= db.Column(db.Integer,primary_key=True,autoincrement=True)
-    fav_user_id= db.Column(db.Integer,db.ForeignKey('user.user_id'),nullable=False)
-    fav_artwork_id= db.Column(db.Integer,db.ForeignKey('artworks.art_id'),nullable=False)
+    fav_user_id= db.Column(db.Integer,db.ForeignKey('user.user_id', ondelete="CASCADE"),nullable=True)
+    fav_artwork_id= db.Column(db.Integer,db.ForeignKey('artworks.art_id', ondelete="CASCADE"),nullable=True)
 
 
 class Orders(db.Model):
     order_id= db.Column(db.Integer,primary_key=True,autoincrement=True)
-    order_user_id= db.Column(db.Integer,db.ForeignKey('user.user_id', ondelete="CASCADE"),nullable=False)
+    order_user_id= db.Column(db.Integer,db.ForeignKey('user.user_id', ondelete="CASCADE"),nullable=True)
     order_time= db.Column(db.DateTime,default=datetime.utcnow,nullable=False)
     order_status= db.Column(db.Enum('pending', 'completed', 'failed', name='order_status'),default='pending',nullable=False)
     order_total_price= db.Column(db.Float,nullable=False)
@@ -87,8 +87,8 @@ class OrderDetails(db.Model):
     __tablename__ = 'order_details'
     	
     order_details_id= db.Column(db.Integer,primary_key=True,autoincrement=True)
-    order_detail_order_id= db.Column(db.Integer,db.ForeignKey('orders.order_id', ondelete="CASCADE"),nullable=False)
-    order_art_id= db.Column(db.Integer,db.ForeignKey('artworks.art_id', ondelete="CASCADE"),nullable=False)
+    order_detail_order_id= db.Column(db.Integer,db.ForeignKey('orders.order_id', ondelete="CASCADE"),nullable=True)
+    order_art_id= db.Column(db.Integer,db.ForeignKey('artworks.art_id', ondelete="CASCADE"),nullable=True)
     order_art_price= db.Column(db.Float,nullable=False)
     order_quantity= db.Column(db.Integer,nullable=True)
 
@@ -100,7 +100,7 @@ class Payment(db.Model):
     __tablename__ = 'payment_details'
     						
     pay_id= db.Column(db.Integer,primary_key=True,autoincrement=True)
-    payment_order_id= db.Column(db.Integer,db.ForeignKey('orders.order_id', ondelete="CASCADE"),nullable=False)
+    payment_order_id= db.Column(db.Integer,db.ForeignKey('orders.order_id', ondelete="CASCADE"),nullable=True)
     payment_method= db.Column(db.String(45))
     transaction_id= db.Column(db.String(255))
     payment_amount= db.Column(db.Float, nullable=False)
@@ -113,8 +113,8 @@ class Payment(db.Model):
 class Reviews(db.Model):
     
     review_id= db.Column(db.Integer,primary_key=True,autoincrement=True)
-    rev_buyer_id= db.Column(db.Integer,db.ForeignKey('user.user_id'),nullable=False)
-    rev_seller_id= db.Column(db.Integer,db.ForeignKey('sellers.seller_id'),nullable=False)
+    rev_buyer_id= db.Column(db.Integer,db.ForeignKey('user.user_id', ondelete="CASCADE"),nullable=True)
+    rev_seller_id= db.Column(db.Integer,db.ForeignKey('sellers.seller_id', ondelete="CASCADE"),nullable=True)
     review= db.Column(db.String(255))
     review_time= db.Column(db.DateTime,default=datetime.utcnow)	
 
@@ -122,8 +122,8 @@ class Reviews(db.Model):
 class Messages(db.Model):
     				
     message_id= db.Column(db.Integer,primary_key=True,autoincrement=True)
-    mssg_user_id= db.Column(db.Integer,db.ForeignKey('user.user_id'),nullable=False)
-    mssg_seller_id= db.Column(db.Integer,db.ForeignKey('sellers.seller_id'),nullable=False)
+    mssg_user_id= db.Column(db.Integer,db.ForeignKey('user.user_id', ondelete="CASCADE"),nullable=True)
+    mssg_seller_id= db.Column(db.Integer,db.ForeignKey('sellers.seller_id', ondelete="CASCADE"),nullable=True)
     mssg_text= db.Column(db.Text,nullable=False)
     mssg_time_sent= db.Column(db.DateTime,default=datetime.utcnow,nullable=False)	
 

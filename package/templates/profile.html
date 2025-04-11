@@ -23,7 +23,10 @@
                           
                           <div class="ms-3" style="margin-top: 100px;">
                             <h5>Welcome {{loggedin.username}}</h5>
-                            <p>Lagos state</p>
+                            
+                           {% if loggedin.user_state %}
+                           <p>{{loggedin.user_state}}</p>
+                           {%endif%}
                           </div>
                         </div>
 
