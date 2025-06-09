@@ -31,7 +31,7 @@ def collections():
     total_pages = pagination.pages if pagination.pages else 0
 
 
-    return render_template('collections/collections.html',loggedin=loggedin,artworks=artworks,sellers=sellers,categories=categories,total_pages=total_pages,page=page)
+    return render_template('collections/collections.html',loggedin=loggedin,artworks=artworks,sellers=sellers,total_pages=total_pages,page=page)
 
 @app.route('/see-art/embroideries/')
 def embroideries():
@@ -43,12 +43,12 @@ def embroideries():
     sellers = Sellers.query.all()
 
     page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 4, type=int)
+    per_page = request.args.get('per_page', 8, type=int)
     pagination = db.paginate(db.select(Artworks).filter(Artworks.art_category_id==2).order_by(Artworks.art_posted_at), page=page, per_page=per_page, error_out=False)
     artworks = pagination.items if pagination.items else []
     total_pages = pagination.pages if pagination.pages else 0
 
-    return render_template('collections/embroid.html',loggedin=loggedin,artworks=artworks,sellers=sellers,categories=categories,total_pages=total_pages,page=page)
+    return render_template('collections/embroid.html',loggedin=loggedin,artworks=artworks,sellers=sellers,total_pages=total_pages,page=page)
 
 @app.route('/see-art/interiors/')
 def interiors():
@@ -60,13 +60,13 @@ def interiors():
     sellers = Sellers.query.all()
 
     page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 4, type=int)
+    per_page = request.args.get('per_page', 8, type=int)
     pagination = db.paginate(db.select(Artworks).filter(Artworks.art_category_id==5).order_by(Artworks.art_posted_at), page=page, per_page=per_page, error_out=False)
     artworks = pagination.items if pagination.items else []
     total_pages = pagination.pages if pagination.pages else 0
 
 
-    return render_template('collections/interior.html',loggedin=loggedin,artworks=artworks,sellers=sellers,categories=categories,total_pages=total_pages,page=page)
+    return render_template('collections/interior.html',loggedin=loggedin,artworks=artworks,sellers=sellers,total_pages=total_pages,page=page)
 
 @app.route('/see-art/paintings/')
 def paintings():
@@ -80,13 +80,13 @@ def paintings():
     
 
     page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 4, type=int)
+    per_page = request.args.get('per_page', 8, type=int)
     pagination = db.paginate(db.select(Artworks).filter(Artworks.art_category_id==3).order_by(Artworks.art_posted_at), page=page, per_page=per_page, error_out=False)
     artworks = pagination.items if pagination.items else []
     total_pages = pagination.pages if pagination.pages else 0
 
 
-    return render_template('collections/painting.html',loggedin=loggedin,artworks=artworks,sellers=sellers,categories=categories,total_pages=total_pages,page=page)
+    return render_template('collections/painting.html',loggedin=loggedin,artworks=artworks,sellers=sellers,total_pages=total_pages,page=page)
 
 @app.route('/see-art/sculptures/')
 def sculptures():
@@ -100,13 +100,13 @@ def sculptures():
     
 
     page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 4, type=int)
+    per_page = request.args.get('per_page', 8, type=int)
     pagination = db.paginate(db.select(Artworks).filter(Artworks.art_category_id==4).order_by(Artworks.art_posted_at), page=page, per_page=per_page, error_out=False)
     artworks = pagination.items if pagination.items else []
     total_pages = pagination.pages if pagination.pages else 0
 
 
-    return render_template('collections/sculpt.html',loggedin=loggedin,artworks=artworks,sellers=sellers,categories=categories,total_pages=total_pages,page=page)
+    return render_template('collections/sculpt.html',loggedin=loggedin,artworks=artworks,sellers=sellers,total_pages=total_pages)
 
 @app.route('/see-art/sketches/')
 def sketches():
@@ -120,12 +120,12 @@ def sketches():
     
 
     page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 4, type=int)
+    per_page = request.args.get('per_page', 8, type=int)
     pagination = db.paginate(db.select(Artworks).filter(Artworks.art_category_id==1).order_by(Artworks.art_posted_at), page=page, per_page=per_page, error_out=False)
     artworks = pagination.items if pagination.items else []
     total_pages = pagination.pages if pagination.pages else 0
 
-    return render_template('collections/sketch.html',loggedin=loggedin,artworks=artworks,sellers=sellers,categories=categories,total_pages=total_pages,page=page)
+    return render_template('collections/sketch.html',loggedin=loggedin,artworks=artworks,sellers=sellers,total_pages=total_pages,page=page)
 
 @app.route('/product/details/<int:id>/')
 def item_details(id):
